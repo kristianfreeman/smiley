@@ -1,0 +1,9 @@
+name = "smiley"
+type = "webpack"
+account_id = "dc56444c4c955a1653106ccf997c1067"
+workers_dev = true
+webpack_config = "webpack.config.js"
+
+kv_namespaces = [
+  { binding = "FEEDBACK", preview_id = "44e6b8277c5d427bb5e197bd94df57ac", id = "44e6b8277c5d427bb5e197bd94df57ac" }
+]
