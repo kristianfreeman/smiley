@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 const cookieKey = 'smiley-session'
 
 const respond = async (request: Request): Promise<Response> => {
+  let body
   const url: URL = new URL(request.url)
   let smiley: string | number | null = url.searchParams.get('feedback')
 
@@ -29,7 +30,7 @@ const respond = async (request: Request): Promise<Response> => {
 
   const key = `feedback:${respondingTo}:${sessionId}`
   const existing = await FEEDBACK.get(key)
-  if (existing) return new Response('Already responded', { status: 200 })
+  if (existing) body = 'Already responded'
 
   smiley = Number(smiley)
   if (isNaN(smiley) || smiley < 1 || smiley > 4) {
@@ -40,9 +41,17 @@ const respond = async (request: Request): Promise<Response> => {
 
   await FEEDBACK.put(key, smiley.toString())
 
-  return new Response('Thanks for your feedback!', {
-    headers: setCookie ? { 'Set-cookie': setCookie } : {},
-  })
+  const redirectUrl = url.searchParams.get("redirect_url")
+
+  const headers: any = {
+    'Content-type': 'text/html'
+  }
+  if (setCookie) headers['Set-cookie'] = setCookie
+
+  if (!body) body = "Thanks for your feedback!"
+  if (redirectUrl) body += (`<script>window.location = "${redirectUrl}"</script>`)
+  let response = new Response(body, { headers })
+  return response
 }
 
 const responses = async (request: Request): Promise<Response> => {

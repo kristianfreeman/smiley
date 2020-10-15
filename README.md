@@ -24,6 +24,12 @@ pass in `url` and `feedback` (must be between 1 - 4, 1 being "i hate this" and 4
 [😁 i love this project](https://smiley.signalnerve.workers.dev/respond?url=https://github.com/signalnerve/smiley&feedback=4)
 ```
 
-view feedback for a project using the `/responses` path, passing in the same `url` param
+you can pass in the URL param `redirect_url` to send the responder to a URL after they give feedback:
+
+```
+[😁 i love this project](https://smiley.signalnerve.workers.dev/respond?url=https://github.com/signalnerve/smiley&feedback=4&redirect_url=https://github.com/signalnerve/smiley)
+```
+
+view feedback for this project using the `/responses` path, passing in the same `url` param
 
 [view feedback for this project](https://smiley.signalnerve.workers.dev/responses?url=https://github.com/signalnerve/smiley)
